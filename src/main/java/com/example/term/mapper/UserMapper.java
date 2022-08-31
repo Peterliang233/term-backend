@@ -1,23 +1,21 @@
 package com.example.term.mapper;
 
 
-import com.example.term.entity.User;
-import org.apache.ibatis.annotations.Mapper;
+import com.example.term.entity.UserEntity;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Mapper
 @Component
 public interface UserMapper {
     @Select("select * from user")
-    List<User> getAllUsers();
+    List<UserEntity> getAllUsers();
 
 
     @Select("select * from user where username = #{username}")
-    User selectUserByUsername(@Param("username")String username);
+    UserEntity selectUserByUsername(@Param("username")String username);
 
 
 
