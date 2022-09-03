@@ -1,7 +1,7 @@
 package com.example.term.dto.user;
 
 
-import com.example.term.entity.UserEntity;
+import com.example.term.entity.user.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

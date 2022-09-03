@@ -2,17 +2,18 @@ package com.example.term.service.user;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.example.term.entity.UserEntity;
-import com.example.term.mapper.UserMapper;
+import com.example.term.entity.user.UserEntity;
+import com.example.term.mapper.user.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service
 public class UserService {
 
-    @Autowired
+    @Resource
     private UserMapper userMapper;
 
     public UserEntity checkLogin(String username) {

@@ -1,8 +1,8 @@
-package com.example.term.mapper;
+package com.example.term.mapper.user;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.term.entity.UserEntity;
+import com.example.term.entity.user.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

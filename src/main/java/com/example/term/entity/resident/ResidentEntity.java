@@ -1,5 +1,4 @@
-package com.example.term.entity;
-
+package com.example.term.entity.resident;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -9,22 +8,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-
+import java.sql.Date;
+import java.sql.Timestamp;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-@TableName("user")
-public class UserEntity implements Serializable {
+@TableName("resident")
+public class ResidentEntity {
     @TableId(type = IdType.AUTO)
-    private Integer id;
+    private Integer Id;
 
-    private String username;
+    private String name;
 
+    private String phone;
 
-    private String password;
+    private String address;
 
-    private Integer type;
+    private Date enterTime;
 }

@@ -2,26 +2,26 @@ package com.example.term.controller.user;
 
 
 import com.example.term.dto.user.UserDto;
-import com.example.term.entity.UserEntity;
+import com.example.term.entity.user.UserEntity;
 import com.example.term.service.user.UserService;
 import com.example.term.util.response.Response;
 import com.example.term.util.result.ResultResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 
 @RestController
 public class UserController {
 
 
-    @Autowired
+    @Resource
     private UserService userService;
 
-    @RequestMapping("/login")
-    Response Login(@RequestBody UserDto userDto) {
+    @RequestMapping("user/login")
+    public Response Login(@RequestBody UserDto userDto) {
         UserEntity queryUser = userDto.toEntity();
         HashMap<String, Object> data = new HashMap<>(1);
 

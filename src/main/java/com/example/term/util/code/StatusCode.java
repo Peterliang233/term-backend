@@ -5,7 +5,8 @@ public enum StatusCode {
 
     SUCCESS(0, "请求成功"),
     FAIL(-1, "请求失败"),
-    ERR_INTERVAL(5000, "内部错误");
+    ERR_INTERVAL(5000, "内部错误"),
+    ERR_REQUEST(5001, "请求参数错误");
 
 
     private Integer code;
