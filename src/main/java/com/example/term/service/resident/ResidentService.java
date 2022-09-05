@@ -3,16 +3,13 @@ package com.example.term.service.resident;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.example.term.dto.resident.ResidentDto;
 import com.example.term.entity.resident.ResidentEntity;
-import com.example.term.entity.user.UserEntity;
 import com.example.term.mapper.resident.ResidentMapper;
-import com.example.term.util.code.StatusCode;
 import com.example.term.util.response.ResponseException;
 import com.example.term.util.response.ResponseExceptionCatcher;
+import com.example.term.util.response.ResponseType;
 import lombok.SneakyThrows;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -27,8 +24,8 @@ public class ResidentService {
 
     @ResponseExceptionCatcher
     @SneakyThrows
-    public List<ResidentEntity> getResidentList() {
-        return residentMapper.selectList(null);
+    public List<ResidentDto> getResidentList() {
+       return null;
     }
 
     @ResponseExceptionCatcher
@@ -42,7 +39,7 @@ public class ResidentService {
     @SneakyThrows
     public void updateResident(ResidentEntity residentEntity) {
         if (residentEntity == null) {
-            throw new ResponseException(StatusCode.ERR_REQUEST);
+            throw new ResponseException(ResponseType.INVALID_PARAMS);
         }
         UpdateWrapper<ResidentEntity> updateWrapper = new UpdateWrapper<>();
         residentMapper.update(residentEntity, updateWrapper.eq("id", residentEntity.getId()));

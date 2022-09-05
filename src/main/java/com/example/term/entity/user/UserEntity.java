@@ -8,8 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.Entity;
 import java.io.Serializable;
 
 
@@ -23,7 +21,6 @@ public class UserEntity implements Serializable {
     private Integer id;
 
     private String username;
-
 
     private String password;
 
