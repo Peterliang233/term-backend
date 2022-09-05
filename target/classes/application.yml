@@ -6,4 +6,10 @@ spring:
     password: password
 server:
   port: 8888
+jwt:
+  secret: 123123
+  issuer: com.example.term
+  expiration: 36000000
+  prefix: "Bearer "
+
 
