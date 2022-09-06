@@ -2,6 +2,8 @@ package com.example.term.interceptor.jwt;
 
 
 import com.example.term.config.jwt.JwtConfig;
+import com.example.term.interceptor.jwt.JwtAuth;
+import com.example.term.interceptor.jwt.JwtFactory;
 import com.example.term.util.response.ResponseException;
 import com.example.term.util.response.ResponseType;
 import io.jsonwebtoken.Claims;

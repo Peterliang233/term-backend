@@ -17,7 +17,7 @@ public enum ResponseType {
 
     USERNAME_CONFLICT(400, 6, "用户名冲突"),
 
-    ERR_NOT_AUTHORIZATION(403, 4, "鉴权失败"),
+    ERR_NOT_AUTHORIZATION(403, 4, "无权限操作"),
 
 
 

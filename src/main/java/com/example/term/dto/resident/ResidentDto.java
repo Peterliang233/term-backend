@@ -3,6 +3,7 @@ package com.example.term.dto.resident;
 
 import com.example.term.entity.resident.ResidentEntity;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResidentDto {

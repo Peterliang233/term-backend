@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.HashMap;
 
 @RestController
@@ -33,7 +34,7 @@ public class UserController {
     @RequestMapping("/login")
     @SneakyThrows
     @ResponseExceptionCatcher
-    public FormattedResponse<?> Login(@RequestBody LoginDto loginDto) {
+    public FormattedResponse<?> Login(@Valid @RequestBody LoginDto loginDto) {
         HashMap<String, Object> data = new HashMap<>(2);
 
         if (!userService.loginRequest(loginDto)){
@@ -57,7 +58,7 @@ public class UserController {
     @SneakyThrows
     @ResponseExceptionCatcher
     public FormattedResponse<?> Register(HttpServletRequest request,
-                                         @RequestBody RegisterDto registerDto) {
+                                         @Valid @RequestBody RegisterDto registerDto) {
         HashMap<String, Object> data = new HashMap<>(1);
         data.put("user", userService.createUser(CommonUtil.objToInteger(request.getAttribute("userType")), registerDto));
 

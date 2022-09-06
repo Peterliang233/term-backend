@@ -12,4 +12,3 @@ jwt:
   expiration: 36000000
   prefix: "Bearer "
 
-

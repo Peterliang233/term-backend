@@ -3,8 +3,10 @@ package com.example.term.service.resident;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.example.term.config.common.ConstCode;
 import com.example.term.dto.resident.ResidentDto;
 import com.example.term.entity.resident.ResidentEntity;
+import com.example.term.entity.user.UserEntity;
 import com.example.term.mapper.resident.ResidentMapper;
 import com.example.term.util.response.ResponseException;
 import com.example.term.util.response.ResponseExceptionCatcher;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ResidentService {
@@ -24,14 +27,16 @@ public class ResidentService {
 
     @ResponseExceptionCatcher
     @SneakyThrows
-    public List<ResidentDto> getResidentList() {
-       return null;
+    public List<ResidentEntity> getResidentList() {
+       return residentMapper.selectList(null);
     }
 
     @ResponseExceptionCatcher
     @SneakyThrows
-    public void addResident(ResidentEntity residentEntity) {
+    public List<ResidentEntity> addResident(ResidentEntity residentEntity) {
         residentMapper.insert(residentEntity);
+
+        return residentMapper.selectList(null);
     }
 
 
@@ -47,8 +52,16 @@ public class ResidentService {
 
     @ResponseExceptionCatcher
     @SneakyThrows
-    public void deleteResident(Integer id) {
+    public List<ResidentEntity> deleteResident(Integer userType, Integer id) {
+        System.out.println(userType);
+        // 只有管理员才可以创建新的用户
+        if (!Objects.equals(userType, ConstCode.ADMIN.getCode())) {
+            throw new ResponseException(ResponseType.ERR_NOT_AUTHORIZATION);
+        }
+
         QueryWrapper<ResidentEntity> queryWrapper = new QueryWrapper<>();
         residentMapper.delete(queryWrapper.eq("id", id));
+
+        return residentMapper.selectList(null);
     }
 }
