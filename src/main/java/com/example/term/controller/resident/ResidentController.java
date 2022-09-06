@@ -57,10 +57,8 @@ public class ResidentController {
     public FormattedResponse<?> updateResident(HttpServletRequest request, @RequestBody ResidentDto residentDto) {
         ResidentEntity residentEntity = residentDto.toUpdateResidentEntity();
 
-        residentService.updateResident(residentEntity);
-        HashMap<String, Object> data = new HashMap<>();
-        data.put("data", null);
-
+        HashMap<String, Object> data = new HashMap<>(1);
+        data.put("data", residentService.updateResident(residentEntity));
         return FormattedResponse.success(data);
     }
 

@@ -42,12 +42,14 @@ public class ResidentService {
 
     @ResponseExceptionCatcher
     @SneakyThrows
-    public void updateResident(ResidentEntity residentEntity) {
+    public List<ResidentEntity> updateResident(ResidentEntity residentEntity) {
         if (residentEntity == null) {
             throw new ResponseException(ResponseType.INVALID_PARAMS);
         }
         UpdateWrapper<ResidentEntity> updateWrapper = new UpdateWrapper<>();
         residentMapper.update(residentEntity, updateWrapper.eq("id", residentEntity.getId()));
+
+        return residentMapper.selectList(null);
     }
 
     @ResponseExceptionCatcher
