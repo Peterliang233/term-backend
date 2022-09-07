@@ -30,9 +30,10 @@ public class ResidentController {
     @GetMapping("/all")
     @SneakyThrows
     @ResponseExceptionCatcher
-    public FormattedResponse<?> getResidentList() {
+    public FormattedResponse<?> getResidentList(HttpServletRequest request) {
         HashMap<String, Object> data = new HashMap<>(1);
-        data.put("data", residentService.getResidentList());
+        data.put("data", residentService.getResidentList(CommonUtil.objToInteger(request.getAttribute("userType")),
+                CommonUtil.objToString(request.getAttribute("uuid"))));
 
         return FormattedResponse.success(data);
     }
@@ -42,23 +43,31 @@ public class ResidentController {
     @SneakyThrows
     @JwtAuth
     @ResponseExceptionCatcher
-    public FormattedResponse<?> addResident(@Valid @RequestBody ResidentDto residentDto) {
+    public FormattedResponse<?> addResident(HttpServletRequest request,
+            @Valid @RequestBody ResidentDto residentDto) {
         ResidentEntity residentEntity = residentDto.toResidentEntity();
 
         HashMap<String, Object> data = new HashMap<>(1);
 
-        data.put("data", residentService.addResident(residentEntity));
+        data.put("data", residentService.addResident(residentEntity,
+                CommonUtil.objToString(request.getAttribute("uuid")
+                ), CommonUtil.objToInteger(request.getAttribute("userType"))));
 
         return FormattedResponse.success(data);
     }
 
 
     @PutMapping("/renew")
+    @JwtAuth
+    @SneakyThrows
+    @ResponseExceptionCatcher
     public FormattedResponse<?> updateResident(HttpServletRequest request, @RequestBody ResidentDto residentDto) {
         ResidentEntity residentEntity = residentDto.toUpdateResidentEntity();
 
         HashMap<String, Object> data = new HashMap<>(1);
-        data.put("data", residentService.updateResident(residentEntity));
+        data.put("data", residentService.updateResident(residentEntity,
+                CommonUtil.objToInteger(request.getAttribute("userType")),
+                CommonUtil.objToString(request.getAttribute("uuid"))));
         return FormattedResponse.success(data);
     }
 
@@ -71,7 +80,9 @@ public class ResidentController {
                                                @RequestParam(name = "id") Integer Id) {
 
         HashMap<String, Object> data = new HashMap<>(1);
-        data.put("data", residentService.deleteResident(CommonUtil.objToInteger(request.getAttribute("userType")),Id));
+        data.put("data", residentService.deleteResident(CommonUtil.objToInteger(request.getAttribute("userType")),
+                CommonUtil.objToString(request.getAttribute("uuid")),
+                Id));
 
         return FormattedResponse.success(data);
     }

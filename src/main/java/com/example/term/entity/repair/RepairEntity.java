@@ -27,4 +27,6 @@ public class RepairEntity {
     private String detail;
 
     private Integer status;
+
+    private String uuid;
 }

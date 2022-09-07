@@ -38,13 +38,21 @@ public class UserController {
         HashMap<String, Object> data = new HashMap<>(2);
 
         if (!userService.loginRequest(loginDto)){
-            throw new ResponseException(ResponseType.ERROR);
+            throw new ResponseException(ResponseType.ERR_LOGIN);
         }
 
         // 查询用户实体
         UserEntity userEntity = userService.queryByUsername(loginDto.getUsername());
 
-        String token = JwtFactory.buildJwt(userEntity.getUsername(), userEntity.getType());
+        if (userEntity == null) {
+            throw new ResponseException(ResponseType.ERR_LOGIN);
+        }
+
+        if (userEntity.getPassword() == loginDto.getPassword() && userEntity.getUsername()==loginDto.getUsername()) {
+            throw new ResponseException(ResponseType.ERR_LOGIN);
+        }
+
+        String token = JwtFactory.buildJwt(userEntity.getUsername(), userEntity.getType(), userEntity.getUuid());
 
         data.put("user", userEntity);
         data.put("token", token);

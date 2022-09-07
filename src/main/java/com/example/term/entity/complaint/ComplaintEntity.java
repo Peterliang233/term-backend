@@ -27,4 +27,6 @@ public class ComplaintEntity {
     private String detail;
 
     private Integer status;
+
+    private String uuid;
 }

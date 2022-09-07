@@ -61,6 +61,11 @@ public class UserService {
             throw new ResponseException(ResponseType.USERNAME_CONFLICT);
         }
 
+        // 需要保证用户uID唯一
+        if (userMapper.selectOne(new QueryWrapper<UserEntity>().eq("uuid", registerDto.getUuid())) != null) {
+            throw new ResponseException(ResponseType.ERR_UUID);
+        }
+
 
 
         userMapper.insert(userEntity);

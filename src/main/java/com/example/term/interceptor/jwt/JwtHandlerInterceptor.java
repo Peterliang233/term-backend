@@ -34,9 +34,10 @@ public class JwtHandlerInterceptor implements HandlerInterceptor {
             if (method.getAnnotation(JwtAuth.class).required()) {
                 String token = request.getHeader("Authorization");
                 if (token == null) {
-                    request.setAttribute("userType", jwtConfig.getRole());
-                    request.setAttribute("username", jwtConfig.getPublicUsername());
-                    return true;
+//                    request.setAttribute("userType", jwtConfig.getRole());
+//                    request.setAttribute("username", jwtConfig.getPublicUsername());
+//                    request.setAttribute("uuid", jwtConfig.getUuid());
+                    throw new ResponseException(ResponseType.ERR_NOT_AUTHORIZATION);
                 }
                 if(!token.startsWith(jwtConfig.getPrefix()) || token.length() <= jwtConfig.getPrefix().length()) {
                     throw new ResponseException(ResponseType.ERR_NOT_AUTHORIZATION);
@@ -46,11 +47,13 @@ public class JwtHandlerInterceptor implements HandlerInterceptor {
                     Claims claims = JwtFactory.parseJwt(token.split(" ")[1]);
                     Object username = claims.get("username");
                     Object userType = claims.get("userType");
+                    Object uuid = claims.get("uuid");
                     if(userType == null || username == null) {
                         throw new ResponseException(ResponseType.ERR_NOT_AUTHORIZATION);
                     }else{
                         request.setAttribute("username", username);
                         request.setAttribute("userType", userType);
+                        request.setAttribute("uuid", uuid);
                         return true;
                     }
                 }catch (Exception e) {

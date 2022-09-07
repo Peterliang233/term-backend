@@ -25,4 +25,6 @@ public class FeeEntity {
     private Integer feeType;
 
     private Integer status;
+
+    private String uuid;
 }

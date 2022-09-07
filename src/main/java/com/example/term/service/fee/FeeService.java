@@ -27,10 +27,10 @@ public class FeeService {
 
     @ResponseExceptionCatcher
     @SneakyThrows
-    public List<FeeEntity> getFeeList(Integer userType) {
-        // 只有管理员才可以创建新的用户
+    public List<FeeEntity> getFeeList(Integer userType,String uuid) {
         if (!Objects.equals(userType, ConstCode.ADMIN.getCode())) {
-            throw new ResponseException(ResponseType.ERR_NOT_AUTHORIZATION);
+            // 非管理员只能查询自己相关的信息
+           return feeMapper.selectList(new QueryWrapper<FeeEntity>().eq("uuid", uuid));
         }
         return feeMapper.selectList(null);
     }

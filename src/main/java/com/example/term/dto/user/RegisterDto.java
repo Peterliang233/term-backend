@@ -21,10 +21,14 @@ public class RegisterDto {
     @NotBlank(message = "用户密码不能为空")
     private String password;
 
+    @NotBlank(message = "用户的uuid不能为空")
+    private String uuid;
+
     public UserEntity toEntity() {
         return UserEntity.builder()
                 .type(this.type)
                 .username(this.username)
+                .uuid(this.uuid)
                 .password(this.password)
                 .build();
     }

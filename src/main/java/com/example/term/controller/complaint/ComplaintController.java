@@ -29,9 +29,10 @@ public class ComplaintController {
     @GetMapping("/all")
     @SneakyThrows
     @ResponseExceptionCatcher
-    public FormattedResponse<?> getComplaintList() {
+    public FormattedResponse<?> getComplaintList(HttpServletRequest request) {
         HashMap<String, Object> data = new HashMap<>(1);
-        data.put("data", complaintService.getComplaintList());
+        data.put("data", complaintService.getComplaintList(CommonUtil.objToInteger(request.getAttribute("userType")),
+                CommonUtil.objToString(request.getAttribute("uuid"))));
 
         return FormattedResponse.success(data);
     }
@@ -41,21 +42,28 @@ public class ComplaintController {
     @SneakyThrows
     @JwtAuth
     @ResponseExceptionCatcher
-    public FormattedResponse<?> addComplaint(@Valid @RequestBody ComplaintDto complaintDto) {
+    public FormattedResponse<?> addComplaint(HttpServletRequest request,
+            @Valid @RequestBody ComplaintDto complaintDto) {
 
         HashMap<String, Object> data = new HashMap<>(1);
 
-        data.put("data", complaintService.addComplaint(complaintDto));
+        data.put("data", complaintService.addComplaint(complaintDto,
+                CommonUtil.objToString(request.getAttribute("uuid")
+                ), CommonUtil.objToInteger(request.getAttribute("userType"))));
 
         return FormattedResponse.success(data);
     }
 
 
     @PutMapping("/renew")
+    @JwtAuth
+    @SneakyThrows
+    @ResponseExceptionCatcher
     public FormattedResponse<?> updateComplaint(HttpServletRequest request,@Valid @RequestBody ComplaintDto complaintDto) {
 
         HashMap<String, Object> data = new HashMap<>(1);
-        data.put("data", complaintService.updateComplaint(complaintDto));
+        data.put("data", complaintService.updateComplaint(complaintDto,CommonUtil.objToString(request.getAttribute("uuid")),
+                CommonUtil.objToInteger(request.getAttribute("userType"))));
 
         return FormattedResponse.success(data);
     }
@@ -69,7 +77,9 @@ public class ComplaintController {
                                                @RequestParam(name = "id") Integer Id) {
 
         HashMap<String, Object> data = new HashMap<>(1);
-        data.put("data", complaintService.deleteComplaint(CommonUtil.objToInteger(request.getAttribute("userType")),Id));
+        data.put("data", complaintService.deleteComplaint(CommonUtil.objToInteger(request.getAttribute("userType")),
+                CommonUtil.objToString(request.getAttribute("uuid")),
+                Id));
 
         return FormattedResponse.success(data);
     }

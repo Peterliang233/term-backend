@@ -24,4 +24,6 @@ public class ParkingEntity {
 
 
     private String tenant;
+
+    private String uuid;
 }

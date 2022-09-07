@@ -8,31 +8,35 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class ParkingDto {
-    private Integer Id;
+    private Integer id;
 
 
     @NotBlank(message = "停车位编号不能为空")
     private String number;
 
 
-    @NotBlank(message = "停车位状态不能为空")
+    @NotNull(message = "停车位状态不能为空")
     private Integer status;
 
 
     private String tenant;
 
+    private String uuid;
+
     public ParkingEntity toEntity() {
         return ParkingEntity.builder()
-                .Id(this.Id)
+                .Id(this.id)
                 .number(this.number)
                 .status(this.status)
                 .tenant(this.tenant)
+                .uuid(this.uuid)
                 .build();
     }
 }

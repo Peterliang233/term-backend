@@ -26,4 +26,6 @@ public class ResidentEntity {
     private String address;
 
     private Date enterTime;
+
+    private String uuid;
 }

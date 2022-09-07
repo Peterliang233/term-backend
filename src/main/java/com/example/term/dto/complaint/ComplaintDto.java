@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -30,6 +29,8 @@ public class ComplaintDto {
     @NotNull(message = "投诉状态不能为空")
     private Integer status;
 
+    private String uuid;
+
 
     public ComplaintEntity toEntity() {
         return ComplaintEntity
@@ -39,6 +40,7 @@ public class ComplaintDto {
                 .phone(this.phone)
                 .detail(this.detail)
                 .status(this.status)
+                .uuid(this.uuid)
                 .build();
     }
 }

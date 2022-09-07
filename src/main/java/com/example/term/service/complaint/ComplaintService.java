@@ -28,33 +28,52 @@ public class ComplaintService {
 
     @SneakyThrows
     @ResponseExceptionCatcher
-    public List<ComplaintEntity> getComplaintList() {
+    public List<ComplaintEntity> getComplaintList(Integer userType, String uuid) {
+        // 只有管理员才可以创建新的用户
+        if (!Objects.equals(userType, ConstCode.ADMIN.getCode())) {
+            // 不是管理员只能返回自己uid关联的信息
+            QueryWrapper<ComplaintEntity> queryWrapper = new QueryWrapper<>();
+            return complaintMapper.selectList(queryWrapper.eq("uuid", uuid));
+        }
         return complaintMapper.selectList(null);
     }
 
 
     @SneakyThrows
     @ResponseExceptionCatcher
-    public List<ComplaintEntity> addComplaint(ComplaintDto complaintDto) {
+    public List<ComplaintEntity> addComplaint(ComplaintDto complaintDto,String uuid, Integer userType) {
         ComplaintEntity complaintEntity = complaintDto.toEntity();
+        complaintEntity.setUuid(uuid);
 
         complaintMapper.insert(complaintEntity);
 
+        if (!Objects.equals(userType, ConstCode.ADMIN.getCode())) {
+            // 不是管理员只能返回自己uid关联的信息
+            QueryWrapper<ComplaintEntity> queryWrapper = new QueryWrapper<>();
+            return complaintMapper.selectList(queryWrapper.eq("uuid", uuid));
+        }
+
         return complaintMapper.selectList(null);
     }
 
 
     @SneakyThrows
     @ResponseExceptionCatcher
-    public List<ComplaintEntity> updateComplaint(ComplaintDto complaintDto) {
-
+    public List<ComplaintEntity> updateComplaint(ComplaintDto complaintDto, String uuid, Integer userType) {
         ComplaintEntity complaintEntity = complaintDto.toEntity();
-
         if (complaintEntity == null) {
             throw new ResponseException(ResponseType.ERROR);
         }
 
-        System.out.println(complaintEntity);
+        // 不是管理员，只能更新自己相关的数据
+        if (!Objects.equals(userType, ConstCode.ADMIN.getCode())) {
+            QueryWrapper<ComplaintEntity> queryWrapper = new QueryWrapper<>();
+            complaintMapper.update(complaintEntity, queryWrapper.eq("uuid", uuid).eq("id",complaintEntity.getId()));
+
+            return complaintMapper.selectList(new QueryWrapper<ComplaintEntity>().eq("uuid", uuid));
+        }
+
+
 
         UpdateWrapper<ComplaintEntity> updateWrapper = new UpdateWrapper<>();
 
@@ -66,15 +85,17 @@ public class ComplaintService {
 
     @ResponseExceptionCatcher
     @SneakyThrows
-    public List<ComplaintEntity> deleteComplaint(Integer userType, Integer id) {
-        // 只有管理员才可以创建新的用户
+    public List<ComplaintEntity> deleteComplaint(Integer userType,String uuid, Integer id) {
+        QueryWrapper<ComplaintEntity> queryWrapper = new QueryWrapper<>();
         if (!Objects.equals(userType, ConstCode.ADMIN.getCode())) {
-            throw new ResponseException(ResponseType.ERR_NOT_AUTHORIZATION);
+            // 不是管理员，只能删除自己相关的信息
+            complaintMapper.delete(queryWrapper.eq("id", id).eq("uuid", uuid));
+            System.out.println("debug:" +uuid);
+            return complaintMapper.selectList(new QueryWrapper<ComplaintEntity>().eq("uuid", uuid));
         }
 
-        QueryWrapper<ComplaintEntity> queryWrapper = new QueryWrapper<>();
-        complaintMapper.delete(queryWrapper.eq("id", id));
 
+        complaintMapper.delete(queryWrapper.eq("id", id));
         return complaintMapper.selectList(null);
     }
 }

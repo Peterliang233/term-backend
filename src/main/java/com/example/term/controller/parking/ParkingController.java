@@ -31,7 +31,8 @@ public class ParkingController {
     @ResponseExceptionCatcher
     public FormattedResponse<?> getParkingList(HttpServletRequest request) {
         HashMap<String, Object> data = new HashMap<>(1);
-        data.put("data", parkingService.getParkingList(CommonUtil.objToInteger(request.getAttribute("userType"))));
+        data.put("data", parkingService.getParkingList(CommonUtil.objToInteger(request.getAttribute("userType")),
+                CommonUtil.objToString(request.getAttribute("uuid"))));
 
         return FormattedResponse.success(data);
     }

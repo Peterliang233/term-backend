@@ -25,10 +25,10 @@ public class ParkingService {
 
     @ResponseExceptionCatcher
     @SneakyThrows
-    public List<ParkingEntity> getParkingList(Integer userType) {
+    public List<ParkingEntity> getParkingList(Integer userType,String uuid) {
         // 只有管理员才可以创建新的用户
         if (!Objects.equals(userType, ConstCode.ADMIN.getCode())) {
-            throw new ResponseException(ResponseType.ERR_NOT_AUTHORIZATION);
+            return parkingMapper.selectList(new QueryWrapper<ParkingEntity>().eq("uuid", uuid));
         }
         return parkingMapper.selectList(null);
     }

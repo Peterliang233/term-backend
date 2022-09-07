@@ -32,12 +32,15 @@ public class ResidentDto {
     @NotNull(message = "业主入住时间不能为空")
     private Date enterTime;
 
+    private String uuid;
+
     public ResidentEntity toResidentEntity() {
         return ResidentEntity.builder()
                 .address(this.address)
                 .name(this.name)
                 .phone(this.phone)
                 .enterTime(this.enterTime)
+                .uuid(this.uuid)
                 .build();
     }
 
@@ -48,6 +51,7 @@ public class ResidentDto {
                 .name(this.name)
                 .phone(this.phone)
                 .enterTime(this.enterTime)
+                .uuid(this.uuid)
                 .build();
     }
 }

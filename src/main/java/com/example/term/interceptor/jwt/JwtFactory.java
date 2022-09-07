@@ -21,13 +21,14 @@ public class JwtFactory {
     private JwtConfig jwtConfig;
 
 
-    public static String buildJwt(String username, Integer userType) {
+    public static String buildJwt(String username, Integer userType, String uuid) {
         long currentTimeStamp = System.currentTimeMillis();
 
-        HashMap<String, Object> claims = new HashMap<>(2);
+        HashMap<String, Object> claims = new HashMap<>(3);
 
         claims.put("username", username);
         claims.put("userType", userType);
+        claims.put("uuid", uuid);
 
         return Jwts.builder()
                 .setClaims(claims)

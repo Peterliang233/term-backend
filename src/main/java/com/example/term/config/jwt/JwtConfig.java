@@ -20,4 +20,6 @@ public class JwtConfig {
     private String publicUsername;
 
     private Integer role;
+
+    private String uuid;
 }

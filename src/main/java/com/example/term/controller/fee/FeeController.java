@@ -28,7 +28,8 @@ public class FeeController {
     @ResponseExceptionCatcher
     public FormattedResponse<?> getFeeList(HttpServletRequest request) {
         HashMap<String, Object> data = new HashMap<>(1);
-        data.put("data", feeService.getFeeList(CommonUtil.objToInteger(request.getAttribute("userType"))));
+        data.put("data", feeService.getFeeList(CommonUtil.objToInteger(request.getAttribute("userType")),
+                CommonUtil.objToString(request.getAttribute("uuid"))));
 
         return FormattedResponse.success(data);
     }
