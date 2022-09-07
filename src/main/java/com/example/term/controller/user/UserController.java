@@ -13,9 +13,7 @@ import com.example.term.util.response.ResponseException;
 import com.example.term.util.response.ResponseExceptionCatcher;
 import com.example.term.util.response.ResponseType;
 import lombok.SneakyThrows;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -60,6 +58,42 @@ public class UserController {
         return FormattedResponse.success(data);
     }
 
+    @JwtAuth
+    @GetMapping("/all")
+    @SneakyThrows
+    @ResponseExceptionCatcher
+    public FormattedResponse<?> getUserList(HttpServletRequest request) {
+        HashMap<String, Object> data = new HashMap<>(1);
+        data.put("data", userService.getUserList(CommonUtil.objToInteger(request.getAttribute("userType"))));
+
+        return FormattedResponse.success(data);
+    }
+
+    @JwtAuth
+    @PutMapping("/renew")
+    @SneakyThrows
+    @ResponseExceptionCatcher
+    public FormattedResponse<?> updateUser(HttpServletRequest request,
+                                           @Valid @RequestBody RegisterDto registerDto) {
+        HashMap<String, Object> data = new HashMap<>(1);
+        data.put("data", userService.updateUser(CommonUtil.objToInteger(request.getAttribute("userType")), registerDto));
+
+        return FormattedResponse.success(data);
+    }
+
+    @JwtAuth
+    @DeleteMapping("/delete")
+    @SneakyThrows
+    @ResponseExceptionCatcher
+    public FormattedResponse<?> deleteUser(HttpServletRequest request,
+                                           @RequestParam(name = "id") Integer Id) {
+        HashMap<String, Object> data = new HashMap<>(1);
+
+        data.put("data", userService.deleteUser(CommonUtil.objToInteger(request.getAttribute("userType")), Id));
+
+        return FormattedResponse.success(data);
+    }
+
 
     @JwtAuth
     @RequestMapping("/register")
@@ -68,7 +102,7 @@ public class UserController {
     public FormattedResponse<?> Register(HttpServletRequest request,
                                          @Valid @RequestBody RegisterDto registerDto) {
         HashMap<String, Object> data = new HashMap<>(1);
-        data.put("user", userService.createUser(CommonUtil.objToInteger(request.getAttribute("userType")), registerDto));
+        data.put("data", userService.createUser(CommonUtil.objToInteger(request.getAttribute("userType")), registerDto));
 
         return FormattedResponse.success(data);
     }

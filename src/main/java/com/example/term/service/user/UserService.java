@@ -1,8 +1,8 @@
 package com.example.term.service.user;
 
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.term.config.common.ConstCode;
 import com.example.term.dto.user.LoginDto;
 import com.example.term.dto.user.RegisterDto;
@@ -11,7 +11,6 @@ import com.example.term.mapper.user.UserMapper;
 import com.example.term.util.response.ResponseException;
 import com.example.term.util.response.ResponseType;
 import lombok.SneakyThrows;
-import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,6 +40,48 @@ public class UserService {
     public UserEntity queryByUsername(String username) {
         QueryWrapper<UserEntity> queryWrapper = new QueryWrapper<>();
         return userMapper.selectOne(queryWrapper.eq("username", username));
+    }
+
+    @Transactional
+    @SneakyThrows
+    public List<UserEntity> getUserList(Integer userType) {
+        // 只有管理员才可以创建新的用户
+        if (!Objects.equals(userType, ConstCode.ADMIN.getCode())) {
+            throw new ResponseException(ResponseType.ERR_NOT_AUTHORIZATION);
+        }
+
+        return userMapper.selectList(null);
+    }
+
+
+    @Transactional
+    @SneakyThrows
+    public List<UserEntity> updateUser(Integer userType, RegisterDto registerDto) {
+        // 只有管理员才可以创建新的用户
+        if (!Objects.equals(userType, ConstCode.ADMIN.getCode())) {
+            throw new ResponseException(ResponseType.ERR_NOT_AUTHORIZATION);
+        }
+
+        UserEntity userEntity = registerDto.toEntity();
+        UpdateWrapper<UserEntity> updateWrapper = new UpdateWrapper<>();
+        userMapper.update(userEntity, updateWrapper.eq("id", userEntity.getId()));
+
+        return userMapper.selectList(null);
+    }
+
+
+    @Transactional
+    @SneakyThrows
+    public List<UserEntity> deleteUser(Integer userType, Integer id) {
+        // 只有管理员才可以创建新的用户
+        if (!Objects.equals(userType, ConstCode.ADMIN.getCode())) {
+            throw new ResponseException(ResponseType.ERR_NOT_AUTHORIZATION);
+        }
+
+        QueryWrapper<UserEntity> queryWrapper = new QueryWrapper<>();
+        userMapper.delete(queryWrapper.eq("id", id));
+
+        return userMapper.selectList(null);
     }
 
     @Transactional

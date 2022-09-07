@@ -45,6 +45,8 @@ public class FeeService {
         }
         FeeEntity feeEntity = feeDto.toEntity();
 
+        System.out.println(feeEntity);
+
         feeMapper.insert(feeEntity);
 
         return feeMapper.selectList(null);

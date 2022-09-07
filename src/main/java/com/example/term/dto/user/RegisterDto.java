@@ -12,6 +12,8 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterDto {
+
+    private Integer id;
     @NotNull(message = "用户的类型不能为空")
     private Integer type;
 
@@ -26,6 +28,7 @@ public class RegisterDto {
 
     public UserEntity toEntity() {
         return UserEntity.builder()
+                .id(this.id)
                 .type(this.type)
                 .username(this.username)
                 .uuid(this.uuid)
